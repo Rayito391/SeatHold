@@ -4,6 +4,8 @@ import java.time.Instant;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -38,6 +40,18 @@ public class GlobalExceptionHandler {
             ConflictException ex,
             HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.CONFLICT, ex, request);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<ApiError>> handleValidation(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request) {
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .distinct()
+                .reduce((a, b) -> a + "; " + b)
+                .orElse("Validation failed");
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, new RuntimeException(message), request);
     }
 
     @ExceptionHandler(SecurityExcepction.class)
