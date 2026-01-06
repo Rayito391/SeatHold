@@ -2,6 +2,10 @@ server:
   port: 8080
 
 spring:
+  application:
+    jwt:
+      secret: ${SPRING_APPLICATION_JWT_SECRET}
+      expiration: ${SPRING_APPLICATION_JWT_EXPIRATION:86400000}
   data:
     redis:
       host: localhost
@@ -24,3 +28,8 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+app:
+  hold:
+    ttl-seconds: 300
+    lock-seconds: 5
+    rate-limit-per-minute: 5

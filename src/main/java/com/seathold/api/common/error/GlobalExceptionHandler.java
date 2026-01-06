@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.seathold.api.common.exception.BadRequestException;
 import com.seathold.api.common.exception.ConflictException;
 import com.seathold.api.common.exception.NotFoundException;
+import com.seathold.api.common.exception.SecurityExcepction;
 import com.seathold.api.common.response.ApiResponse;
 import com.seathold.api.common.response.ApiResponseFactory;
 
@@ -37,6 +38,13 @@ public class GlobalExceptionHandler {
             ConflictException ex,
             HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.CONFLICT, ex, request);
+    }
+
+    @ExceptionHandler(SecurityExcepction.class)
+    public ResponseEntity<ApiResponse<ApiError>> handleSecurity(
+            SecurityExcepction ex,
+            HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex, request);
     }
 
     @ExceptionHandler(Exception.class)
