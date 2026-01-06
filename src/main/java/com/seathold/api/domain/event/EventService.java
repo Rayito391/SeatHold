@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.seathold.api.redis.AvailabilityService;
+
 import com.seathold.api.common.exception.BadRequestException;
 import com.seathold.api.common.exception.ConflictException;
 import com.seathold.api.common.exception.NotFoundException;
@@ -15,9 +17,11 @@ import com.seathold.api.common.exception.NotFoundException;
 @Service
 public class EventService {
     private final EventRepository eventRepository;
+    private final AvailabilityService availabilityService;
 
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, AvailabilityService availabilityService) {
         this.eventRepository = eventRepository;
+        this.availabilityService = availabilityService;
     }
 
     public List<Event> findAll() {
@@ -56,7 +60,11 @@ public class EventService {
 
         event.setStatus(EventStatus.PUBLISHED);
 
-        return eventRepository.save(event);
+        Event saved = eventRepository.save(event);
+
+        availabilityService.init(saved.getId(), saved.getTotalCapacity());
+
+        return saved;
 
     }
 
@@ -83,12 +91,16 @@ public class EventService {
         if (patch.getStartsAt() != null)
             event.setStartsAt(patch.getStartsAt());
         event.setEndsAt(patch.getEndsAt());
-        if (patch.getTotalCapacity() > 0) {
-            event.setTotalCapacity(patch.getTotalCapacity());
-        }
 
         if (event.getStartsAt() != null && event.getStartsAt().isBefore(LocalDateTime.now())) {
             throw new BadRequestException("startsAt must be in the future");
+        }
+
+        if (patch.getTotalCapacity() > 0) {
+            if (event.getStatus() == EventStatus.PUBLISHED) {
+                throw new ConflictException("Cannot change totalCapacity of a published event");
+            }
+            event.setTotalCapacity(patch.getTotalCapacity());
         }
 
         return eventRepository.save(event);
@@ -105,5 +117,10 @@ public class EventService {
     private Event getByIdOrThrow(UUID eventId) {
         return eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public Integer getAvailableSeats(UUID eventId) {
+        return availabilityService.getAvailable(eventId);
     }
 }
