@@ -1,6 +1,7 @@
 package com.seathold.api.domain.event;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +18,14 @@ public class EventService {
 
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
+    }
+
+    public List<Event> findAll() {
+        return eventRepository.findAll();
+    }
+
+    public Event findById(UUID eventId) {
+        return getByIdOrThrow(eventId);
     }
 
     @Transactional
