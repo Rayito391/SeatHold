@@ -1,0 +1,137 @@
+:host {
+  display: block;
+}
+
+.events {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  gap: 20px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e6e8ec;
+  box-shadow: 0 10px 30px rgba(16, 21, 28, 0.1);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #54616f;
+}
+
+.message {
+  background: #f2f4f7;
+  border: 1px solid #e0e4ea;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e6e8ec;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  box-shadow: 0 12px 30px rgba(16, 21, 28, 0.08);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.card-subtitle {
+  font-size: 12px;
+  color: #54616f;
+}
+
+.badge {
+  background: #10151c;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 4px 10px;
+  height: fit-content;
+}
+
+.desc {
+  font-size: 13px;
+  color: #2c3947;
+}
+
+.meta {
+  font-size: 12px;
+  color: #607084;
+  display: grid;
+  gap: 4px;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 70px 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.card-actions input {
+  border: 1px solid #d7dbe0;
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.primary {
+  background: #10151c;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid #d7dbe0;
+  color: #10151c;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.empty {
+  text-align: center;
+  color: #607084;
+}
+
+@media (max-width: 720px) {
+  .card-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}

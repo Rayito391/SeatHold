@@ -1,0 +1,21 @@
+<div class="admin-page">
+  <header>
+    <div>
+      <div class="title">Publish evento</div>
+      <div class="subtitle">Admin</div>
+    </div>
+    <a class="ghost" routerLink="/home">Volver</a>
+  </header>
+
+  <div class="message" *ngIf="message()">{{ message() }}</div>
+
+  <section class="card">
+    <label>
+      Evento
+      <select (change)="selectedId.set($any($event.target).value)">
+        <option *ngFor="let event of events()" [value]="event.id">{{ event.title }}</option>
+      </select>
+    </label>
+    <button type="button" (click)="publishEvent()" [disabled]="loading()">Publicar</button>
+  </section>
+</div>

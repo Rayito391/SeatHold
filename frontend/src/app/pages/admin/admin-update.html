@@ -1,0 +1,31 @@
+<div class="admin-page">
+  <header>
+    <div>
+      <div class="title">Update evento</div>
+      <div class="subtitle">Admin</div>
+    </div>
+    <a class="ghost" routerLink="/home">Volver</a>
+  </header>
+
+  <div class="message" *ngIf="message()">{{ message() }}</div>
+
+  <section class="card">
+    <label>
+      Evento
+      <select (change)="selectEvent($any($event.target).value)">
+        <option *ngFor="let event of events()" [value]="event.id">{{ event.title }}</option>
+      </select>
+    </label>
+
+    <form [formGroup]="form" (ngSubmit)="updateEvent()">
+      <input type="text" formControlName="title" placeholder="Titulo" />
+      <input type="text" formControlName="description" placeholder="Descripcion" />
+      <input type="text" formControlName="venue" placeholder="Lugar" />
+      <input type="text" formControlName="city" placeholder="Ciudad" />
+      <input type="datetime-local" formControlName="startsAt" />
+      <input type="datetime-local" formControlName="endsAt" />
+      <input type="number" min="0" formControlName="totalCapacity" placeholder="Capacidad" />
+      <button type="submit" [disabled]="loading()">Actualizar</button>
+    </form>
+  </section>
+</div>

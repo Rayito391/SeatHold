@@ -1,0 +1,34 @@
+<div class="reservations">
+  <header>
+    <div>
+      <div class="title">Reservaciones</div>
+      <div class="subtitle">Mis reservaciones</div>
+    </div>
+    <select (change)="setStatus($any($event.target).value)">
+      <option value="">Todas</option>
+      <option value="HOLD">HOLD</option>
+      <option value="CONFIRMED">CONFIRMED</option>
+      <option value="CANCELED">CANCELED</option>
+      <option value="EXPIRED">EXPIRED</option>
+    </select>
+  </header>
+
+  <div class="message" *ngIf="message()">{{ message() }}</div>
+
+  <div class="grid" *ngIf="reservations().length > 0">
+    <div class="card" *ngFor="let r of reservations()">
+      <div class="card-header">
+        <div class="card-title">{{ r.status }}</div>
+        <div class="badge">{{ r.quantity }}</div>
+      </div>
+      <div class="card-body">
+        <div>Reserva: {{ r.reservationId }}</div>
+        <div>Evento: {{ r.eventId }}</div>
+        <div>Creado: {{ r.createdAt }}</div>
+        <div *ngIf="r.expiresAt">Expira: {{ r.expiresAt }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" *ngIf="!loading() && reservations().length === 0">No hay reservaciones.</div>
+</div>

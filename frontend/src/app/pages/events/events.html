@@ -1,0 +1,45 @@
+<div class="events">
+  <header>
+    <div>
+      <div class="title">Eventos</div>
+      <div class="subtitle">Publicados</div>
+    </div>
+    <button type="button" class="ghost" (click)="loadEvents()" [disabled]="loading()">Actualizar</button>
+  </header>
+
+  <div class="message" *ngIf="message()">{{ message() }}</div>
+
+  <div class="grid" *ngIf="events().length > 0">
+    <div class="card" *ngFor="let event of events()">
+      <div class="card-header">
+        <div>
+          <div class="card-title">{{ event.title }}</div>
+          <div class="card-subtitle">{{ event.city }} - {{ event.venue }}</div>
+        </div>
+        <div class="badge">{{ event.availableSeats ?? '-' }} disp</div>
+      </div>
+
+      <div class="card-body">
+        <div class="desc">{{ event.description }}</div>
+        <div class="meta">
+          <div>Inicio: {{ event.startsAt }}</div>
+          <div>Fin: {{ event.endsAt }}</div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <input
+          type="number"
+          min="1"
+          [value]="getQuantity(event.id)"
+          (input)="setQuantity(event.id, $any($event.target).value)"
+        />
+        <button type="button" class="primary" (click)="hold(event.id)" *ngIf="!holds()[event.id]">Hold</button>
+        <button type="button" class="ghost" (click)="confirm(event.id)" *ngIf="holds()[event.id]">Confirmar</button>
+        <button type="button" class="ghost" (click)="cancel(event.id)" *ngIf="holds()[event.id]">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" *ngIf="!loading() && events().length === 0">No hay eventos publicados.</div>
+</div>

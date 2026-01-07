@@ -1,0 +1,23 @@
+<div class="home">
+  <header>
+    <div>
+      <div class="title">SeatHold</div>
+      <div class="subtitle">Panel de usuario</div>
+    </div>
+    <button type="button" class="ghost" (click)="logout()">Cerrar sesion</button>
+  </header>
+
+  <div class="menu" *ngIf="role !== 'ADMIN'">
+    <a class="menu-item" routerLink="/events">Eventos</a>
+    <a class="menu-item" routerLink="/reservations">Reservaciones</a>
+  </div>
+
+  <div class="admin" *ngIf="role === 'ADMIN'">
+    <div class="admin-title">Admin</div>
+    <div class="menu">
+      <a class="menu-item" routerLink="/admin/create">Crear evento</a>
+      <a class="menu-item" routerLink="/admin/update">Update evento</a>
+      <a class="menu-item" routerLink="/admin/publish">Publish evento</a>
+    </div>
+  </div>
+</div>
