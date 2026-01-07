@@ -54,6 +54,11 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": [
+              "nonvasculous-dean-heliographic.ngrok-free.dev"
+            ]
+          },
           "configurations": {
             "production": {
               "buildTarget": "seathold:build:production"
